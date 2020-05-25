@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { ThemeProvider } from "styled-components";
+import { GlobalStyles } from "./components/GlobalStyles";
+import { lightTheme, darkTheme } from "./components/Theme";
 import "./App.css";
 import dummyData from "./data";
 import CardList from "./components/CardList";
 
 const App = () => {
   const [videos, setVideos] = useState([]);
+  const [theme, setTheme] = useState("light");
+  const themeToggler = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -14,21 +21,23 @@ const App = () => {
   }, []);
 
   return (
+    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <GlobalStyles />
       <>
-        <div className="App">      
-          {
-            videos.map((list, index) => {
-              return (
-                <section key={index}>
-                  <h2 className="section-title">{list.section}</h2>
-                  <CardList list={list} />
-                  <hr />
-                </section>
-              );
-            })}
+        <div className="App">
+          <button onClick={themeToggler}>Switch Theme</button>
+          {videos.map((list, index) => {
+            return (
+              <section key={index}>
+                <h2 className="section-title">{list.section}</h2>
+                <CardList list={list} />
+                <hr />
+              </section>
+            );
+          })}
         </div>
       </>
-    
+    </ThemeProvider>
   );
 };
 

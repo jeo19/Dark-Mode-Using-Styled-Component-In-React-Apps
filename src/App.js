@@ -11,7 +11,7 @@ import Toggle from './components/Toggler';
 
 const App = () => {
     const [videos, setVideos] = useState([]);
-    const [theme, themeToggler] = useDarkMode();
+    const [theme, themeToggler, mountedComponent] = useDarkMode();
     const themeMode = theme === 'light' ? lightTheme : darkTheme;
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -19,7 +19,7 @@ const App = () => {
         }, 1000);
         return () => clearTimeout(timer);
     }, []);
-
+    if (!mountedComponent) return <div />;
     return (
         <ThemeProvider theme={themeMode}>
             <GlobalStyles />
